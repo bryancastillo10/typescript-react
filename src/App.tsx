@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC, createContext } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./App.css";
+import { Person, Requests } from "./components/Person";
+
+// const getName = (name: string): number | string => {
+//   if (name === "Bryan") {
+//     return age;
+//   } else {
+//     return "Invalid age";
+//   }
+// };
+
+interface AppContextInterface {
+  name: string;
+  age: number;
+  country: string;
 }
+
+const NewContext = createContext<AppContextInterface | null>(null);
+
+const App: FC = () => {
+  const contextValue: AppContextInterface = {
+    name: "Juan",
+    age: 20,
+    country: "Philippines",
+  };
+
+  return (
+    <NewContext.Provider value={contextValue}>
+      <div className="container">
+        <Person name="Bryan" age={25} requests={Requests.Success} />
+      </div>
+    </NewContext.Provider>
+  );
+};
 
 export default App;

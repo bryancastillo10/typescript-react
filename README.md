@@ -1,46 +1,128 @@
-# Getting Started with Create React App
+Type Definitions:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```
+// string type
+const userName: string = "Bryan";
 
-## Available Scripts
+// number type
+const age: number = 27;
 
-In the project directory, you can run:
+// boolean
+const isStudent: boolean = false;
+```
 
-### `npm start`
+Objects Definition
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+interface Props {
+  name: string;
+  age: number;
+  email: string;
+  getName: (name: string) => string;
+}
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+getName here is a function which requires the
+type of the argument (if it exists)
+type of what it returns
 
-### `npm test`
+Optional Declaration of Type
+Example for Props
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+interface Props {
+  name?: string;
+  age?: number;
+  email?: string;
+}
+```
 
-### `npm run build`
+Defining FC (functional component) and its props
+Remember to import {FC} from "react";
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+export const Person: FC<Props> = ({ name, age, email }) => {
+  return (
+    <div>
+      <h1>{name}</h1>
+      <h1>{email}</h1>
+      <h1>{age}</h1>
+    </div>
+  );
+};
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+useState Hook needs type definition
+import ChangeEvent and useState
 
-### `npm run eject`
+```
+ const [country, setCountry] = useState<string | null>("");
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+ const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setCountry(event.target.value);
+  };
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+It either accepts a string or a null value by using Union Type |
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+eNum, a special type used for real objects that exists at runtime
 
-## Learn More
+```
+// TypeScript enum
+enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+// JavaScript object
+const directionObj = {
+    Up: 1,
+    Down: 2,
+    Left: 3,
+    Right: 4,
+};
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+
+Customizing some type
+
+```
+  type NameType = "Jack" | "Jill";
+  const nameForType: NameType = "Jack";
+```
+
+CreateContext is the same type definition as of Object using Interface
+
+```
+
+interface AppContextInterface {
+  name: string;
+  age: number;
+  country: string;
+}
+
+const NewContext = createContext<AppContextInterface | null>(null);
+
+const App: FC = () => {
+  const contextValue: AppContextInterface = {
+    name: "Juan",
+    age: 20,
+    country: "Philippines",
+  };
+
+  return (
+    <NewContext.Provider value={contextValue}>
+      <div className="container">
+        <Person name="Bryan" age={25} requests={Requests.Success} />
+      </div>
+    </NewContext.Provider>
+  );
+};
+
+export default App;
+
+```
